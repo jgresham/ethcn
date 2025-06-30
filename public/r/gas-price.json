@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "gas-price",
+  "type": "registry:ui",
+  "description": "Gas price component",
+  "dependencies": [
+    "wagmi",
+    "viem@2.x",
+    "@tanstack/react-query"
+  ],
+  "files": [
+    {
+      "path": "./src/registry/default/ui/gas-price.tsx",
+      "content": "\"use client\"\n\nimport { useGasPrice } from \"wagmi\"\nimport React from \"react\"\n\n// Inline the DescriptorRow component directly here\nconst DescriptorRow = ({ descriptor, value }: { descriptor: string; value: React.ReactNode }) => (\n  <div className=\"flex justify-between items-center gap-4\">\n    <span className=\"font-medium\">{descriptor}:</span>\n    <span className=\"font-mono text-xs truncate max-w-[200px]\">{value}</span>\n  </div>\n);\n\ninterface GasPriceProps {\n  chainId?: number,\n  wei?: boolean\n}\n\nexport function GasPrice({ chainId, wei }: GasPriceProps): React.JSX.Element {\n  const { data, status } = useGasPrice({\n    chainId: chainId,\n  })\n\n  if (status === 'pending') {\n    return <div>...</div>\n  }\n\n  if (status === 'error') {\n    return <div>{\"-\"}</div>\n  }\n\n  if (!data) {\n    return <div></div>\n  }\n\n  // Convert wei to gwei for better readability\n  const gasPriceInGwei = wei ? data : data ? Number(data) / 1e9 : 0\n\n  return (\n    <div className=\"p-4 border rounded-lg bg-card\">\n      <span className=\"text-xs text-gray-500 font-normal mb-3 leading-none\">Gas Price</span>\n      <div className=\"space-y-2 text-sm\">\n        <DescriptorRow\n          descriptor={wei ? \"Gas Price (Wei)\" : \"Gas Price (Gwei)\"}\n          value={wei? data.toLocaleString() : Number(gasPriceInGwei).toFixed(2)}\n        />\n      </div>\n    </div>\n  )\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}

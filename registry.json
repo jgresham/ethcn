@@ -5,16 +5,122 @@
   "items": [
     {
       "name": "ens-name",
-      "path": "./registry/default/ui/ensName.tsx",
+      "path": "./registry/default/ui/ens-name.tsx",
       "type": "registry:ui",
       "description": "ENS name component",
       "files": [
         {
-          "path": "./src/registry/default/ui/ensName.tsx",
+          "path": "./src/registry/default/ui/ens-name.tsx",
           "type": "registry:ui"
         }
       ],
       "dependencies": ["wagmi", "viem@2.x", "@tanstack/react-query"]
-    }
+    },
+    {
+      "name": "emoji-avatar",
+      "path": "./src/registry/default/ui/emoji-avatar.tsx",
+      "type": "registry:ui",
+      "description": "Emoji avatar component",
+      "files": [
+        {
+          "path": "./src/registry/default/ui/emoji-avatar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": ["wagmi", "viem@2.x", "@tanstack/react-query"]
+    },
+    {
+      "name": "display-address",
+      "path": "./src/registry/default/ui/display-address.tsx",
+      "type": "registry:ui",
+      "description": "Display address component",
+      "files": [
+        {
+          "path": "./src/registry/default/ui/display-address.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": ["wagmi", "viem@2.x", "@tanstack/react-query"],
+      "registryDependencies": ["https://ethcn.xyz/r/emoji-avatar.json"]
+    },
+  {
+    "name": "block",
+    "path": "./src/registry/default/ui/block.tsx",
+    "type": "registry:ui",
+    "description": "Block data component",
+    "files": [
+      {
+        "path": "./src/registry/default/ui/block.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "dependencies": ["wagmi", "viem@2.x", "@tanstack/react-query"]
+  },
+  {
+    "name": "transaction",
+    "path": "./src/registry/default/ui/transaction.tsx",
+    "type": "registry:ui",
+    "description": "Transaction component",
+    "files": [
+      {
+        "path": "./src/registry/default/ui/transaction.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "dependencies": ["wagmi", "viem@2.x", "@tanstack/react-query"]
+  },
+  {
+    "name": "token",
+    "path": "./src/registry/default/ui/token.tsx",
+    "type": "registry:ui",
+    "description": "Token component",
+    "files": [
+      {
+        "path": "./src/registry/default/ui/token.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "dependencies": ["wagmi", "viem@2.x", "@tanstack/react-query"]
+  },
+  {
+    "name": "chain-selector",
+    "path": "./src/registry/default/ui/chain-selector.tsx",
+    "type": "registry:ui",
+    "description": "Chain selector component",
+    "files": [
+      {
+        "path": "./src/registry/default/ui/chain-selector.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "dependencies": ["wagmi", "viem@2.x", "@tanstack/react-query"],
+    "registryDependencies": ["select"]
+  },
+  {
+    "name": "gas-price",
+    "path": "./src/registry/default/ui/gas-price.tsx",
+    "type": "registry:ui",
+    "description": "Gas price component",
+    "files": [
+      {
+        "path": "./src/registry/default/ui/gas-price.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "dependencies": ["wagmi", "viem@2.x", "@tanstack/react-query"]
+  },
+  {
+    "name": "balance",
+    "path": "./src/registry/default/ui/balance.tsx",
+    "type": "registry:ui",
+    "description": "Balance component",
+    "files": [
+      {
+        "path": "./src/registry/default/ui/balance.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "dependencies": ["wagmi", "viem@2.x", "@tanstack/react-query"]
+  }
   ]
 }

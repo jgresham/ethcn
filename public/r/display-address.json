@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "display-address",
+  "type": "registry:ui",
+  "description": "Display address component",
+  "dependencies": [
+    "wagmi",
+    "viem@2.x",
+    "@tanstack/react-query"
+  ],
+  "registryDependencies": [
+    "https://ethcn.xyz/r/emoji-avatar.json"
+  ],
+  "files": [
+    {
+      "path": "./src/registry/default/ui/display-address.tsx",
+      "content": "\"use client\"\n\nimport { useEnsName, useEnsAvatar } from \"wagmi\";\nimport { mainnet } from \"wagmi/chains\";\n// import { mainnetConfig } from \"../../lib/wagmiconfig\";\nimport { normalize } from \"viem/ens\";\nimport { EmojiAvatar } from \"./emoji-avatar\";\nimport { Check } from \"lucide-react\";\nimport { Copy } from \"lucide-react\";\nimport { useState } from \"react\";\n\nexport type FarcasterUser = {\n  fid: number;\n  username: string;\n  display_name: string;\n  pfp_url: string;\n}\n\n// Displays an ethereum address in a truncated format by showing the first 6 and last 4 characters\nexport const truncateAddress = (address: `0x${string}` | undefined) => {\n\tif (!address) {\n\t\treturn \"\";\n\t}\n\treturn `${address.substring(0, 6)}...${address.substring(address.length - 6)}`;\n};\n\nexport function DisplayAddress({\n\taddress,\n\tfarcasterData,\n\tshowAddress = false,\n\temphasize = false,\n}: {\n\taddress: `0x${string}` | undefined;\n\tfarcasterData?: FarcasterUser;\n\tshowAddress?: boolean;\n\temphasize?: boolean;\n}) {\n\t// const { data: ensName } = useEnsName({ config: mainnetConfig, address, chainId: mainnet.id });\n  const { data: ensName } = useEnsName({ address, chainId: mainnet.id });\n\tconst { data: avatarURL } = useEnsAvatar({\n\t\tname: normalize(ensName ?? \"\"),\n\t\t// config: mainnetConfig,\n\t\t// chainId: mainnet.id,\n\t});\n\tconst [copied, setCopied] = useState(false);\n\n\tconst handleCopy = () => {\n\t\tif (!address) return;\n\t\tnavigator.clipboard.writeText(address);\n\t\tsetCopied(true);\n\t\tsetTimeout(() => setCopied(false), 2000);\n\t};\n\n\treturn (\n\t\t<div className=\"flex flex-row items-center gap-2\">\n\t\t\t<EmojiAvatar\n\t\t\t\taddress={address || \"\"}\n\t\t\t\tensImage={farcasterData?.pfp_url ? farcasterData.pfp_url : (avatarURL ?? \"\")}\n\t\t\t\tsize={24}\n\t\t\t/>\n\t\t\t{/* <img className={`w-6 h-6 rounded-full ${avatarURL ? 'visible' : 'invisible'}`} src={avatarURL} alt=\"avatar\" /> */}\n\t\t\t{showAddress || (!ensName && !farcasterData) ? (\n\t\t\t\t<span className={`${emphasize ? \"font-bold\" : \"\"}`}>{truncateAddress(address)}</span>\n\t\t\t) : (\n\t\t\t\t<span className={`${emphasize ? \"font-bold\" : \"\"}`}>\n\t\t\t\t\t{farcasterData?.username ? farcasterData.username : ensName}\n\t\t\t\t</span>\n\t\t\t)}\n\t\t\t<button\n\t\t\t\ttype=\"button\"\n\t\t\t\tonClick={handleCopy}\n\t\t\t\tclassName=\"p-1 rounded-md transition-all duration-200 hover:bg-gray-200 hover:scale-120 dark:hover:bg-gray-700 touch-manipulation\"\n\t\t\t\taria-label=\"Copy address to clipboard\"\n\t\t\t>\n\t\t\t\t{copied ? (\n\t\t\t\t\t<Check color=\"green\" className=\"w-3 h-3 md:w-4 md:h-4\" />\n\t\t\t\t) : (\n\t\t\t\t\t<Copy\n\t\t\t\t\t\tclassName=\"w-3 h-3 md:w-4 md:h-4 transition-all duration-200 hover:bg-gray-200 dark:hover:bg-gray-700 touch-manipulation\"\n\t\t\t\t\t\tcolor=\"gray\"\n\t\t\t\t\t/>\n\t\t\t\t)}\n\t\t\t</button>\n\t\t</div>\n\t);\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}

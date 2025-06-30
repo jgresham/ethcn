@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "transaction",
+  "type": "registry:ui",
+  "description": "Transaction component",
+  "dependencies": [
+    "wagmi",
+    "viem@2.x",
+    "@tanstack/react-query"
+  ],
+  "files": [
+    {
+      "path": "./src/registry/default/ui/transaction.tsx",
+      "content": "\"use client\"\n\nimport { useTransaction } from 'wagmi'\nimport React from 'react'\n// Inline the DescriptorRow component directly here\nconst DescriptorRow = ({ descriptor, value }: { descriptor: string; value: React.ReactNode }) => (\n  <div className=\"flex justify-between items-center gap-4\">\n    <span className=\"font-medium\">{descriptor}:</span>\n    <span className=\"font-mono text-xs truncate max-w-[200px]\">{value}</span>\n  </div>\n);\n\ninterface TransactionProps {\n  hash?: `0x${string}`\n}\n\nexport function Transaction({ hash }: TransactionProps): React.JSX.Element {\n  const { data, error, status } = useTransaction({\n    hash: hash,\n  })\n\n  if (status === 'pending') {\n    return <div>Loading transaction data...</div>\n  }\n\n  if (status === 'error') {\n    return <div>Error fetching transaction data: {error?.message}</div>\n  }\n\n  if (!data) {\n    return <div>No transaction data available</div>\n  }\n\n  return (\n    <div className=\"p-4 border rounded-lg bg-card max-w-[600px]\">\n      <span className=\"text-xs text-gray-500 font-normal mb-3 leading-none\">Transaction</span>\n      <div className=\"space-y-2 text-sm\">\n        <DescriptorRow\n          descriptor=\"Status\"\n          value={\n            <span className={`font-mono ${status === 'success' ? 'text-green-600' : 'text-red-600'}`}>\n              {status === 'success' ? 'Success' : 'Failed'}\n            </span>\n          }\n        />\n        <DescriptorRow\n          descriptor=\"Block Number\"\n          value={data.blockNumber?.toString() || 'Pending'}\n        />\n        <DescriptorRow\n          descriptor=\"From\"\n          value={data.from}\n        />\n        <DescriptorRow\n          descriptor=\"To\"\n          value={data.to || 'Contract Creation'}\n        />\n        <DescriptorRow\n          descriptor=\"Value\"\n          value={data.value ? `${data.value} ETH` : '0 ETH'}\n        />\n        <DescriptorRow\n          descriptor=\"Gas Used\"\n          value={data.gas?.toString() || 'Pending'}\n        />\n        <DescriptorRow\n          descriptor=\"Gas Price\"\n          value={data.gasPrice ? `${data.gasPrice.toLocaleString()} wei` : 'Pending'}\n        />\n        <DescriptorRow\n          descriptor=\"Hash\"\n          value={data.hash}\n        />\n        {data.blockHash && (\n          <DescriptorRow\n            descriptor=\"Block Hash\"\n            value={data.blockHash}\n          />\n        )}\n      </div>\n    </div>\n  )\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}

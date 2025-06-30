@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "balance",
+  "type": "registry:ui",
+  "description": "Balance component",
+  "dependencies": [
+    "wagmi",
+    "viem@2.x",
+    "@tanstack/react-query"
+  ],
+  "files": [
+    {
+      "path": "./src/registry/default/ui/balance.tsx",
+      "content": "\"use client\"\n\nimport { useBalance, useAccount } from \"wagmi\"\n\nexport function Balance({ address }: { address?: `0x${string}` }) {\n  const { address: connectedAddress } = useAccount()\n  const targetAddress = address || connectedAddress\n\n  const { data: balance, isLoading, error } = useBalance({\n    address: targetAddress,\n  })\n\n  if (isLoading) {\n    return <span>Loading...</span>\n  }\n\n  if (error) {\n    return <span>Error loading balance</span>\n  }\n\n  return (\n    <span>\n      {balance?.formatted ? Number(balance.formatted).toFixed(5) : '0'} {balance?.symbol}\n    </span>\n  )\n}\n\n",
+      "type": "registry:ui"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "block",
+  "type": "registry:ui",
+  "description": "Block data component",
+  "dependencies": [
+    "wagmi",
+    "viem@2.x",
+    "@tanstack/react-query"
+  ],
+  "files": [
+    {
+      "path": "./src/registry/default/ui/block.tsx",
+      "content": "\"use client\"\n\nimport { useBlock } from 'wagmi'\nimport React from 'react'\n\n// Inline the DescriptorRow component directly here\nconst DescriptorRow = ({ descriptor, value }: { descriptor: string; value: React.ReactNode }) => (\n  <div className=\"flex justify-between items-center gap-4\">\n    <span className=\"font-medium\">{descriptor}:</span>\n    <span className=\"font-mono text-xs truncate max-w-[200px]\">{value}</span>\n  </div>\n);\n\ninterface BlockDataProps {\n  blockNumber?: bigint\n}\n\nexport function BlockData({ blockNumber }: BlockDataProps): React.JSX.Element {\n  const { data, error, status } = useBlock({\n    blockNumber: blockNumber,\n  })\n\n  if (status === 'pending') {\n    return <div>Loading block data...</div>\n  }\n\n  if (status === 'error') {\n    return <div>Error fetching block data: {error?.message}</div>\n  }\n\n  if (!data) {\n    return <div>No block data available</div>\n  }\n\n  return (\n    <div className=\"p-4 border rounded-lg bg-card\">\n      <span className=\"text-xs text-gray-500 font-normal mb-3 leading-none\">Block</span>\n      <div className=\"space-y-2 text-sm\">\n        <DescriptorRow\n          descriptor=\"Block Number\"\n          value={data.number?.toString()}\n        />\n        <DescriptorRow\n          descriptor=\"Timestamp\"\n          value={data.timestamp ? new Date(Number(data.timestamp) * 1000).toLocaleString() : 'N/A'}\n        />\n        <DescriptorRow\n          descriptor=\"Transactions\"\n          value={data.transactions?.length || 0}\n        />\n        <DescriptorRow\n          descriptor=\"Gas Used\"\n          value={data.gasUsed?.toLocaleString()}\n        />\n        <DescriptorRow\n          descriptor=\"Gas Limit\"\n          value={data.gasLimit?.toLocaleString()}\n        />\n        <DescriptorRow\n          descriptor=\"Hash\"\n          value={data.hash}\n        />\n        <DescriptorRow\n          descriptor=\"Parent Hash\"\n          value={data.parentHash}\n        />\n      </div>\n    </div>\n  )\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}

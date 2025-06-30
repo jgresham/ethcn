@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "chain-selector",
+  "type": "registry:ui",
+  "description": "Chain selector component",
+  "dependencies": [
+    "wagmi",
+    "viem@2.x",
+    "@tanstack/react-query"
+  ],
+  "registryDependencies": [
+    "select"
+  ],
+  "files": [
+    {
+      "path": "./src/registry/default/ui/chain-selector.tsx",
+      "content": "\"use client\"\n\nimport { useChainId, useSwitchChain, useConfig } from 'wagmi'\nimport * as React from \"react\"\nimport {\n  Select,\n  SelectContent,\n  SelectGroup,\n  SelectItem,\n  SelectLabel,\n  SelectTrigger,\n  SelectValue,\n} from \"@/components/ui/select\"\n\nexport function ChainSelector(): React.JSX.Element {\n  const chainId = useChainId()\n  const { switchChain } = useSwitchChain()\n  const config = useConfig()\n  \n  // Get available chains from wagmi config\n  const availableChains = config.chains\n\n  const handleChainChange = (value: string) => {\n    const newChainId = Number(value)\n    if (newChainId !== chainId) {\n      switchChain({ chainId: newChainId })\n    }\n  }\n\n  return (\n    <div className=\"p-4 border rounded-lg bg-card\">\n      <span className=\"text-xs text-gray-500 font-normal mb-3 leading-none\">\n        Chain {chainId ? `(ID: ${chainId})` : \"\"}\n      </span>\n      <div className=\"space-y-2\">\n        <div className=\"flex justify-between items-center gap-4\">\n          <Select value={chainId.toString()} onValueChange={handleChainChange}>\n            <SelectTrigger className=\"w-[180px]\">\n              <SelectValue placeholder=\"Select a chain\" />\n            </SelectTrigger>\n            <SelectContent>\n              <SelectGroup>\n                <SelectLabel>Chains</SelectLabel>\n                {availableChains.map((chain) => (\n                  <SelectItem key={chain.id} value={chain.id.toString()}>\n                    {chain.name}\n                  </SelectItem>\n                ))}\n              </SelectGroup>\n            </SelectContent>\n          </Select>\n        </div>\n      </div>\n    </div>\n  )\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}
