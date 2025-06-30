@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ens-name",
+  "type": "registry:ui",
+  "description": "ENS name component",
+  "dependencies": [
+    "wagmi",
+    "viem@2.x",
+    "@tanstack/react-query"
+  ],
+  "files": [
+    {
+      "path": "./src/registry/default/ui/ensName.tsx",
+      "content": "\"use client\"\n\nimport { useAccount, useEnsName } from 'wagmi'\nimport React from 'react'\n\nexport function EnsName(): React.JSX.Element {\n  const { address } = useAccount()\n  console.log(\"ensName address\", address)\n  const { data, error, status } = useEnsName({ address: \"0xd5575a1089667506110071bF73551c4735A329ef\" })\n\n  if (status === 'pending') {\n    return <div>Loading ENS name </div>\n  }\n\n  if (status === 'error') {\n    return <div>Error fetching ENS name: { error?.message } </div>\n  }\n\n  return <div>ENS name: { data } </div>\n}",
+      "type": "registry:ui"
+    }
+  ]
+}

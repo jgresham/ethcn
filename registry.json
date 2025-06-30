@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "ethcn",
+  "homepage": "https://ethcn.xyz",
+  "items": [
+    {
+      "name": "ens-name",
+      "path": "./registry/default/ui/ensName.tsx",
+      "type": "registry:ui",
+      "description": "ENS name component",
+      "files": [
+        {
+          "path": "./src/registry/default/ui/ensName.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": ["wagmi", "viem@2.x", "@tanstack/react-query"]
+    }
+  ]
+}
